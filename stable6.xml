@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default revision="stable-6" sync-j="4"/>
+
+  <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="git://git.openembedded.org" name="oe"/>
+  <remote fetch="https://github.com" name="github"/>
+  <remote fetch="https://github.com/OpenXT" name="OpenXT"/>
+
+  <project remote="github" name="openembedded/openembedded-core" revision="jethro" path="repos/openembedded-core"/>
+  <project remote="github" name="openembedded/meta-openembedded" revision="jethro" path="repos/meta-openembedded"/>
+  <project remote="github" name="openembedded/bitbake" revision="1.28" path="repos/bitbake"/>
+
+  <project remote="yocto" name="meta-java" revision="a73939323984fca1e919d3408d3301ccdbceac9c" path="repos/meta-java"/>
+  <project remote="yocto" name="meta-selinux" revision="jethro" path="repos/meta-selinux"/>
+  <project remote="yocto" name="meta-intel" revision="jethro" path="repos/meta-intel"/>
+
+  <project remote="github" name="apertussolutions/meta-servicevm" revision="master" force-path="yes" path="repos/meta-servicevm">
+  <project remote="github" name="apertussolutions/xenclient-oe" revision="stable6-oe-refactor" force-path="yes" path="repos/xenclient-oe">
+	  <copyfile dest="host-env" src="../../.repo/manifests/files/host-env"/>
+	  <copyfile dest="build-env" src="../../.repo/manifests/files/build-env"/>
+  </project>
+
+  <project remote="github" name="openxt/blktap" path="openxt/blktap"/>
+  <project remote="github" name="openxt/bootage" path="openxt/bootage"/>
+  <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
+  <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
+  <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>
+  <project remote="github" name="openxt/icbinn" path="openxt/icbinn"/>
+  <project remote="github" name="openxt/idl" path="openxt/idl"/>
+  <project remote="github" name="openxt/input" path="openxt/input"/>
+  <project remote="github" name="openxt/installer" path="openxt/installer"/>
+  <project remote="github" name="openxt/libedid" path="openxt/libedid"/>
+  <project remote="github" name="openxt/libxcdbus" path="openxt/libxcdbus"/>
+  <project remote="github" name="openxt/libxenbackend" path="openxt/libxenbackend"/>
+  <project remote="github" name="openxt/manager" path="openxt/manager"/>
+  <project remote="github" name="openxt/network" path="openxt/network"/>
+  <project remote="github" name="openxt/ocaml" path="openxt/ocaml"/>
+  <project remote="github" name="openxt/pv-linux-drivers" path="openxt/pv-linux-drivers"/>
+  <project remote="github" name="openxt/resized" path="openxt/resized"/>
+  <project remote="github" name="openxt/sync-client" path="openxt/sync-client"/>
+  <project remote="github" name="openxt/sync-wui" path="openxt/sync-wui"/>
+  <project remote="github" name="openxt/surfman" path="openxt/surfman"/>
+  <project remote="github" name="openxt/toolstack" path="openxt/toolstack"/>
+  <project remote="github" name="openxt/toolstack-data" path="openxt/toolstack-data"/>
+  <project remote="github" name="openxt/uid" path="openxt/uid"/>
+  <project remote="github" name="openxt/v4v" path="openxt/v4v"/>
+  <project remote="github" name="openxt/vusb-daemon" path="openxt/vusb-daemon"/>
+  <project remote="github" name="openxt/xblanker" path="openxt/xblanker"/>
+  <project remote="github" name="openxt/xclibs" path="openxt/xclibs"/>
+  <project remote="github" name="openxt/xctools" path="openxt/xctools"/>
+  <project remote="github" name="openxt/xenfb2" path="openxt/xenfb2"/>
+  <project remote="github" name="openxt/xsm-policy" path="openxt/xsm-policy">
+	  <linkfile dest="mirror" src="../../.repo/projects/openxt"/>
+  </project>
+
+</manifest>

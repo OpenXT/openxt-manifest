@@ -1,0 +1,20 @@
+CONF_VERSION = "1"
+
+DISTRO = "openxt-main"
+
+BB_NUMBER_THREADS ?= "4"
+PARALLEL_MAKE ?= "-j 4"
+
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
+
+#USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+# disable prelink and mklibs as it does not play nicely with part 2 installer image
+# TODO: enable it for selected images
+USER_CLASSES = "buildstats"
+
+PATCHRESOLVE = "noop"
+
+TMPDIR ?= "${TOPDIR}/build"
+
+# dir for generated deb packages
+XCT_DEB_PKGS_DIR := "${TOPDIR}/xct_deb_packages"

@@ -1,0 +1,93 @@
+#!/bin/bash
+
+trap 'echo "Error on line  $LINENO"; trap - ERR; return 1' ERR
+
+if [ "$_" == "$0" ]; then
+    echo "This is supposed to be sourced, not executed"
+    return 1
+fi
+
+TOP="$(dirname "$(readlink -f "$_")")"
+BUILD_ID=${1:-$(date +%y%m%d)}
+BRANCH=${2:-"build"}
+
+mkdir -p "${TOP}/build-${BUILD_ID}/conf"
+
+[ -e "${TOP}/templates/local.openxt" ] &&
+    cp "${TOP}/templates/local.openxt" "${TOP}/build-${BUILD_ID}/conf/local.conf"
+[ -e "${TOP}/templates/site.template" ] &&
+    cp "${TOP}/templates/site.template" "${TOP}/build-${BUILD_ID}/conf/site.conf"
+
+if [ ! -e "${TOP}/build-${BUILD_ID}/conf/bblayers.conf" ]; then
+    # bblayers header
+    cat > "${TOP}/build-${BUILD_ID}/conf/bblayers.conf" << EOF
+# LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+LCONF_VERSION = "6"
+
+BBPATH = "\${TOPDIR}"
+BBFILES ?= ""
+BBLAYERS ?= " \\
+EOF
+
+    # bblayers body
+    for r in $(cat "${TOP}/templates/layers.openxt"); do
+        echo " ${TOP}/repos/${r} \\" >> "${TOP}/build-${BUILD_ID}/conf/bblayers.conf"
+    done
+
+    # bblayers footer
+    echo "  \"" >> "${TOP}/build-${BUILD_ID}/conf/bblayers.conf"
+fi
+
+if [ ! -e "${TOP}/build-${BUILD_ID}/conf/auto.conf" ]; then
+    cat > "${TOP}/build-${BUILD_ID}/conf/auto.conf" << EOF
+#
+# Auto-generated configuration
+#
+
+DL_DIR ?= "${TOP}/downloads"
+
+export CCACHE_DIR = "${TOP}/ccache"
+CCACHE_TARGET_DIR="$CACHE_DIR"
+
+OPENXT_MIRROR="http://mirror.openxt.org"
+OPENXT_GIT_MIRROR="${TOP}/mirror"
+OPENXT_GIT_PROTOCOL="file"
+OPENXT_BRANCH="$BRANCH"
+OPENXT_TAG="$BRANCH"
+
+# These two are the only vars that are build specific
+XENCLIENT_BUILD = "${BUILD_ID}"
+XENCLIENT_BUILD_BRANCH = "${BRANCH}"
+
+# Production and development repository-signing CA certificates
+REPO_PROD_CACERT="${TOP}/certs/prod-cacert.pem"
+REPO_DEV_CACERT="${TOP}/certs/dev-cacert.pem"
+EOF
+
+fi
+
+for p in $(ls "${TOP}/openxt"); do
+    project_branch=$(repo branches ${TOP}/openxt/${p} 2>&1|grep "${BRANCH}"|awk '{ print $2 }')
+    if [ "${project_branch}" != "${BRANCH}" ]; then
+        repo start ${BRANCH} ${TOP}/openxt/${p}
+    fi
+done
+unset project_branch
+
+BB_ENV_EXTRAWHITE="MACHINE BUILD_UID"
+BUILDDIR="${TOP}/build-${BUILD_ID}"
+PATHS="${TOP}/repos/bitbake/bin:"
+PATH=$PATHS$(echo $PATH | sed -e "s|:$PATHS|:|g" -e "s|^$PATHS||")
+
+unset TOP PATHS
+
+bb() {
+    # ensure bitbake believes this is a 32bit arch
+    linux32 bitbake $@
+}
+
+trap - ERR
+
+cd ${BUILDDIR}
+export BB_ENV_EXTRAWHITE BUILDDIR PATH

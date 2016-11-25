@@ -1,0 +1,152 @@
+#!/bin/bash
+
+trap 'echo "Error on line  $LINENO"; trap - ERR; return 1' ERR
+
+if [ "$_" == "$0" ]; then
+    echo "This is supposed to be sourced, not executed"
+    return 1
+fi
+
+OPENXT_DIR="$(dirname "$(readlink -f "$_")")"
+MANIFEST_DIR="${OPENXT_DIR}/.repo/manifests"
+DOCKERFILES="${MANIFEST_DIR}/Dockerfiles"
+
+if [ -z "$(which docker)" ]; then
+    echo "Docker must be installed"
+    return 1
+fi
+
+docker info >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Not allowed to control docker, usually not a member of docker group"
+    return 1
+fi
+
+# Setup Dockerfiles
+mkdir -p ${OPENXT_DIR}/Dockerfiles
+for f in ${DOCKERFILES}/*; do
+    dest=${OPENXT_DIR}/Dockerfiles/$(basename $f)
+    cp -n $f ${dest}
+    sed -i -e "s/\[UID\]/${UID}/g" ${dest}
+done
+
+# Setup default build configuration
+mkdir -p ${OPENXT_DIR}/bin
+mkdir -p ${OPENXT_DIR}/templates
+for f in $(ls "${MANIFEST_DIR}/files"); do
+    if echo $f | grep -Eq -e "^layers\.|^local\."; then
+        cp -n "${MANIFEST_DIR}/files/${f}" ${OPENXT_DIR}/templates/.
+    elif [ -x "${MANIFEST_DIR}/files/${f}" ]; then
+        cp -n "${MANIFEST_DIR}/files/${f}" ${OPENXT_DIR}/bin/.
+    fi
+done
+
+create_container() {
+    local name=${1}
+    local file=${2}
+    local path="${OPENXT_DIR}/Dockerfiles"
+
+    if [ -z "${name}" -o -z "${file}" ]; then
+        echo "Error: empty parameter"
+        echo "create_container name Dockerfile"
+        return 1
+    fi
+
+    if [ ! -e "${path}/${file}" ]; then
+        echo "No Dockerfile defined for ${file} found"
+        return 1
+    fi
+
+    docker build -t ${name} -f ${path}/${file} ${OPENXT_DIR}/Dockerfiles
+}
+
+create_oebuild() {
+    local build_id=${1}
+    local template=${2}
+
+    if [ -z "${buld_id}" -o -z "${template}" ]; then
+        echo "Error: empty parameter"
+        echo "create_oeconfig build_id template"
+        return 1
+    fi
+
+    mkdir -p "${OPENXT_DIR}/build-${build_id}/conf"
+
+
+    [ -e "${OPENXT_DIR}/templates/local.${template}" ] &&
+        cp "${OPENXT_DIR}/templates/local.${template}" "${OPENXT_DIR}/build-${BUILD_ID}/conf/local.conf"
+    [ -e "${OPENXT_DIR}/templates/site.${template}" ] &&
+        cp "${OPENXT_DIR}/templates/site.${template}" "${OPENXT_DIR}/build-${BUILD_ID}/conf/site.conf"
+
+    # bblayers header
+    cat > "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf" << EOF
+# LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+LCONF_VERSION = "6"
+
+BBPATH = "\${TOPDIR}"
+BBFILES ?= ""
+BBLAYERS ?= " \\
+EOF
+
+    # bblayers body
+    for r in $(cat "${OPENXT_DIR}/templates/layers.${template}"); do
+        echo " ${OPENXT_DIR}/repos/${r} \\" >> "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf"
+    done
+
+    # bblayers footer
+    echo "  \"" >> "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf"
+}
+
+enter_container() {
+    local user="build"
+
+    while getopts ":u" opt; do
+        case $opt in
+            u) user=$OPTARG ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
+    local name=${1}
+    if [ -z "${name}" ]; then
+        echo "please provide a container to enter"
+        return 1
+    fi
+    shift
+
+    docker run --rm -it \
+        -v "${OPENXT_DIR}:/home/${user}/openxt" \
+        -v ${HOME}/.ssh:/home/${user}/.ssh \
+        -v ${HOME}/.gitconfig:/home/${user}/.gitconfig \
+        -v ${HOME}/.repoconfig:/home/${user}/.repoconfig \
+        -v ${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json \
+        ${name} $@
+}
+
+oxt_build() {
+    local user="build"
+
+    while getopts ":u" opt; do
+        case $opt in
+            u) user=$OPTARG ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
+    local name=${1}; shift
+    if [ -z "${name}" ]; then
+        echo "please provide a container to enter"
+        return 1
+    fi
+
+    docker run --rm -it \
+        -v "${OPENXT_DIR}:/home/${user}/openxt" \
+        -v ${HOME}/.ssh:/home/${user}/.ssh \
+        -v ${HOME}/.gitconfig:/home/${user}/.gitconfig \
+        -v ${HOME}/.repoconfig:/home/${user}/.repoconfig \
+        -v ${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json \
+        ${name} /home/${user}/openxt/bin/build-oxt $@
+}
+
+trap - ERR

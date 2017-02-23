@@ -1,0 +1,45 @@
+FROM multiarch/debian-debootstrap:i386-jessie
+MAINTAINER Daniel P. Smith <dpsmith@apertussolutions.com>
+
+RUN sed -i "s/httpredir.debian.org/ftp.us.debian.org/" /etc/apt/sources.list
+
+RUN apt-get update && \
+        apt-get install -yq openssl sed wget cvs subversion git-core coreutils unzip \
+        texi2html texinfo docbook-utils gawk python-pysqlite2 diffstat help2man \
+        build-essential desktop-file-utils chrpath cpio guilt iasl locales \
+        quilt bin86 bcc libsdl1.2-dev liburi-perl genisoimage policycoreutils \
+        unzip vim sudo rpm curl libncurses5-dev man file ca-certificates byobu && \
+        rm -rf /var/lib/apt-lists/* && \
+        echo "dash dash/sh boolean false" | debconf-set-selections && \
+        DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
+
+# Download the GHC prerequisites from squeeze
+RUN mkdir -p /tmp/ghc-prereq && cd /tmp/ghc-prereq && \
+        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmpxx4ldbl_4.3.2+dfsg-1_i386.deb && \
+        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3c2_4.3.2+dfsg-1_i386.deb && \
+        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3-dev_4.3.2+dfsg-1_i386.deb && \
+        dpkg -i libgmpxx4ldbl_4.3.2+dfsg-1_i386.deb libgmp3c2_4.3.2+dfsg-1_i386.deb \
+          libgmp3-dev_4.3.2+dfsg-1_i386.deb && \
+        rm -rf /tmp/ghc-prereq
+
+# Install the required version of GHC
+RUN cd /tmp && \
+        wget http://www.haskell.org/ghc/dist/6.12.3/ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
+        tar jxf ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
+        rm ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
+        cd ghc-6.12.3 && \
+        ./configure --prefix=/usr && \
+        make install && \
+        cd /tmp && rm -rf ghc-6.12.3
+
+# Add "repo" tool (used by many Yocto-based projects)
+RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo && \
+        chmod a+x /usr/local/bin/repo
+
+RUN useradd -Ums /bin/bash -p build -u [UID] build && \
+        usermod -aG sudo build
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen
+ENV LANG en_US.utf8
+USER build
+WORKDIR /home/build

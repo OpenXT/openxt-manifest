@@ -1,4 +1,6 @@
 xenclient-oe
+meta-openxt-haskell-platform
+meta-openxt-ocaml-platform
 openembedded-core/meta
 meta-openembedded/meta-xfce
 meta-openembedded/meta-oe

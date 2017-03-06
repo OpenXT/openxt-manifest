@@ -17,6 +17,8 @@
   <project remote="yocto" name="meta-intel" revision="jethro" path="repos/meta-intel"/>
 
   <project remote="github" name="apertussolutions/meta-servicevm" revision="master" force-path="yes" path="repos/meta-servicevm"/>
+  <project remote="github" name="openxt/meta-openxt-haskell-platform" revision="master" force-path="yes" path="repos/meta-openxt-haskell-platform"/>
+  <project remote="github" name="openxt/meta-openxt-ocaml-platform" revision="master" force-path="yes" path="repos/meta-openxt-ocaml-platform"/>
   <project remote="github" name="apertussolutions/xenclient-oe" revision="oe-config-refactor" force-path="yes" path="repos/xenclient-oe">
 	  <copyfile dest="host-env" src="../../.repo/manifests/files/host-env"/>
 	  <copyfile dest="openxt-env" src="../../.repo/manifests/files/openxt-env"/>

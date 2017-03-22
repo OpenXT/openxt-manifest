@@ -15,6 +15,7 @@
   <project remote="yocto" name="meta-java" revision="a73939323984fca1e919d3408d3301ccdbceac9c" path="repos/meta-java"/>
   <project remote="yocto" name="meta-selinux" revision="jethro" path="repos/meta-selinux"/>
   <project remote="yocto" name="meta-intel" revision="jethro" path="repos/meta-intel"/>
+  <project remote="yocto" name="meta-virtualization" revision="jethro" path="repos/meta-virtualization"/>
 
   <project remote="github" name="apertussolutions/meta-servicevm" revision="master" force-path="yes" path="repos/meta-servicevm"/>
   <project remote="github" name="openxt/meta-openxt-haskell-platform" revision="master" force-path="yes" path="repos/meta-openxt-haskell-platform"/>

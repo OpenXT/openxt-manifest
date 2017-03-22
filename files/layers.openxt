@@ -10,3 +10,4 @@ meta-openembedded/meta-python
 meta-java
 meta-selinux
 meta-intel
+meta-metavirtualization

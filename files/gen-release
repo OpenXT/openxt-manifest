@@ -27,7 +27,7 @@ if [ -z ${BUILD_ID} ]; then
 fi
 
 # expecting to be in ${TOP}/bin
-TOP="readlink -f $(dirname "$(readlink -f "$_")")/.."
+TOP=$(readlink -f $(dirname "$(readlink -f "$_")"))
 
 TARGET_DIR=${2:-"${TOP}/deploy-${BUILD_ID}"}
 DEPLOY_DIR="${TOP}/build-${BUILD_ID}/tmp-glibc/deploy"
@@ -43,23 +43,31 @@ if [ -d ${TARGET_DIR} ]; then
 fi
 
 # setup structure
-mkdir -p ${TARGET_DIR}/{packages.main,isolinux,netboot,licensesi,sdk}
+mkdir -p ${TARGET_DIR}/{packages.main,isolinux,netboot,licenses,sdk}
 
 # copy DOM0 related files
-for f in $(find ${DEPLOY_DIR}/images/xenclient-dom0 -type l); do
+for f in $(find ${DEPLOY_DIR}/images/xenclient-dom0); do
     case $f in
-        '*bzImage')
+	*/iso/*)
+            cp $f ${TARGET_DIR}/isolinux/. ;;
+        *tboot.gz)
+            cp $f ${TARGET_DIR}/isolinux/. ;;
+        *xen.gz)
+            cp $f ${TARGET_DIR}/isolinux/. ;;
+        *bzImage)
             cp $f ${TARGET_DIR}/isolinux/vmlinuz ;;
-        '*microcode_intel.bin')
+        *microcode_intel.bin)
             cp $f ${TARGET_DIR}/isolinux/. ;;
-        '*.acm')
+        *.acm)
             cp $f ${TARGET_DIR}/isolinux/. ;;
-        '*xenclient-installer-image-xenclient-dom0.cpio.gz')
+        *xenclient-installer-image-xenclient-dom0.cpio.gz)
             cp $f ${TARGET_DIR}/isolinux/rootfs.gz ;;
-        'xenclient-dom0-image-xenclient-dom0.xc.ext3.gz')
+        *xenclient-dom0-image-xenclient-dom0.xc.ext3.gz)
             cp $f ${TARGET_DIR}/packages.main/dom0-rootfs.i686.xc.ext3.gz ;;
-        'xenclient-installer-part2-image-xenclient-dom0.tar.bz2')
+        *xenclient-installer-part2-image-xenclient-dom0.tar.bz2)
             cp $f ${TARGET_DIR}/packages.main/control.tar.bz2 ;;
+	*/netboot/*)
+            cp $f ${TARGET_DIR}/netboot/. ;;
     esac
 done
 
@@ -70,7 +78,7 @@ for f in $(find ${DEPLOY_DIR}/images -type l -name '*.xc.ext3.vhd.gz'); do
 done
 
 # copy the licenses csv files
-find images -name '*-licences.csv' -exec cp {} ${TARGET_DIR}/licenses/. \;
+find ${DEPLOY_DIR}/images -name '*-licences.csv' -exec cp {} ${TARGET_DIR}/licenses/. \;
 
 # symlink ipk into directory
 ln -s ${DEPLOY_DIR}/ipk ${TARGET_DIR}/.

@@ -14,9 +14,9 @@ BRANCH=${2:-"build"}
 mkdir -p "${TOP}/build-${BUILD_ID}/conf"
 
 [ -e "${TOP}/templates/local.openxt" ] &&
-    cp "${TOP}/templates/local.openxt" "${TOP}/build-${BUILD_ID}/conf/local.conf"
+    cp -n "${TOP}/templates/local.openxt" "${TOP}/build-${BUILD_ID}/conf/local.conf"
 [ -e "${TOP}/templates/site.template" ] &&
-    cp "${TOP}/templates/site.template" "${TOP}/build-${BUILD_ID}/conf/site.conf"
+    cp -n "${TOP}/templates/site.template" "${TOP}/build-${BUILD_ID}/conf/site.conf"
 
 if [ ! -e "${TOP}/build-${BUILD_ID}/conf/bblayers.conf" ]; then
     # bblayers header

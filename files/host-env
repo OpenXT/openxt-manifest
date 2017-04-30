@@ -141,6 +141,7 @@ oxt_build() {
     fi
 
     docker run --rm -it \
+	--security-opt seccomp=unconfined \
         -v "${OPENXT_DIR}:/home/${user}/openxt" \
         -v ${HOME}/.ssh:/home/${user}/.ssh \
         -v ${HOME}/.gitconfig:/home/${user}/.gitconfig \

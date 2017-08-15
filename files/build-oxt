@@ -1,13 +1,13 @@
 #!/bin/bash
 
-cd ${HOME}/openxt
+cd "${HOME}/openxt"
 
-. openxt-env $@
+. openxt-env "$@"
 
 while read line; do
-  m=$(echo $line|cut -f1 -d' ')
-  i=$(echo $line|cut -f2 -d' ')
-  MACHINE=$m bb $i || {
+  m=$(echo "$line"|cut -f1 -d' ')
+  i=$(echo "$line"|cut -f2 -d' ')
+  MACHINE=$m bb "$i" || {
     echo -ne "\a"
     break
   }

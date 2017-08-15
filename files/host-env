@@ -23,21 +23,21 @@ if [ $? -ne 0 ]; then
 fi
 
 # Setup Dockerfiles
-mkdir -p ${OPENXT_DIR}/Dockerfiles
-for f in ${DOCKERFILES}/*; do
-    dest=${OPENXT_DIR}/Dockerfiles/$(basename $f)
-    cp -n $f ${dest}
-    sed -i -e "s/\[UID\]/${UID}/g" ${dest}
+mkdir -p "${OPENXT_DIR}/Dockerfiles"
+for f in "${DOCKERFILES}"/*; do
+    dest=${OPENXT_DIR}/Dockerfiles/$(basename "$f")
+    cp -n "$f" "${dest}"
+    sed -i -e "s/\[UID\]/${UID}/g" "${dest}"
 done
 
 # Setup default build configuration
-mkdir -p ${OPENXT_DIR}/bin
-mkdir -p ${OPENXT_DIR}/templates
-for f in $(ls "${MANIFEST_DIR}/files"); do
-    if echo $f | grep -Eq -e "^layers\.|^local\."; then
-        cp -n "${MANIFEST_DIR}/files/${f}" ${OPENXT_DIR}/templates/.
-    elif [ -x "${MANIFEST_DIR}/files/${f}" ]; then
-        cp -n "${MANIFEST_DIR}/files/${f}" ${OPENXT_DIR}/bin/.
+mkdir -p "${OPENXT_DIR}/bin"
+mkdir -p "${OPENXT_DIR}/templates"
+for f in "${MANIFEST_DIR}"/files/*; do
+    if basename "$f" | grep -Eq -e "^layers\.|^local\."; then
+        cp -n "${f}" "${OPENXT_DIR}/templates/."
+    elif [ -x "${f}" ]; then
+        cp -n "${f}" "${OPENXT_DIR}/bin/."
     fi
 done
 
@@ -57,7 +57,7 @@ create_container() {
         return 1
     fi
 
-    docker build -t ${name} -f ${path}/${file} ${OPENXT_DIR}/Dockerfiles
+    docker build -t "${name}" -f "${path}/${file}" "${OPENXT_DIR}/Dockerfiles"
 }
 
 create_oebuild() {
@@ -90,9 +90,9 @@ BBLAYERS ?= " \\
 EOF
 
     # bblayers body
-    for r in $(cat "${OPENXT_DIR}/templates/layers.${template}"); do
+    while read r; do
         echo " ${OPENXT_DIR}/repos/${r} \\" >> "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf"
-    done
+    done < "${OPENXT_DIR}/templates/layers.${template}"
 
     # bblayers footer
     echo "  \"" >> "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf"
@@ -117,11 +117,11 @@ enter_container() {
 
     docker run --rm -it \
         -v "${OPENXT_DIR}:/home/${user}/openxt" \
-        -v ${HOME}/.ssh:/home/${user}/.ssh \
-        -v ${HOME}/.gitconfig:/home/${user}/.gitconfig \
-        -v ${HOME}/.repoconfig:/home/${user}/.repoconfig \
-        -v ${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json \
-        ${name} $@
+        -v "${HOME}/.ssh:/home/${user}/.ssh" \
+        -v "${HOME}/.gitconfig:/home/${user}/.gitconfig" \
+        -v "${HOME}/.repoconfig:/home/${user}/.repoconfig" \
+        -v "${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json" \
+        "${name}" "$@"
 }
 
 oxt_build() {
@@ -143,11 +143,11 @@ oxt_build() {
     docker run --rm -it \
 	--security-opt seccomp=unconfined \
         -v "${OPENXT_DIR}:/home/${user}/openxt" \
-        -v ${HOME}/.ssh:/home/${user}/.ssh \
-        -v ${HOME}/.gitconfig:/home/${user}/.gitconfig \
-        -v ${HOME}/.repoconfig:/home/${user}/.repoconfig \
-        -v ${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json \
-        ${name} /home/${user}/openxt/bin/build-oxt $@
+        -v "${HOME}/.ssh:/home/${user}/.ssh" \
+        -v "${HOME}/.gitconfig:/home/${user}/.gitconfig" \
+        -v "${HOME}/.repoconfig:/home/${user}/.repoconfig" \
+        -v "${HOME}/.repo_.gitconfig.json:/home/${user}/.repo_.gitconfig.json" \
+        "${name}" "/home/${user}/openxt/bin/build-oxt" "$@"
 }
 
 trap - ERR

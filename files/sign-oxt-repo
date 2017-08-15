@@ -30,31 +30,32 @@
 #
 
 BUILD_ID=${1}
-if [ -z ${BUILD_ID} ]; then
+if [ -z "${BUILD_ID}" ]; then
     echo "Please provide the build id you would like to package"
     exit 1
 fi
 
 # expecting to be in ${TOP}/bin
-TOP=$(readlink -f $(dirname "$(readlink -f "$_")"))
+TOP=$(readlink -f "$(dirname $(readlink -f $_))")
 
 TARGET_DIR=${2:-"${TOP}/deploy-${BUILD_ID}"}
 
 
 repository="${TARGET_DIR}/packages.main"
 
-echo -n "" > ${repository}/manifest
-for f in $(ls ${repository}); do
-    case $f in
+echo -n "" > "${repository}/manifest"
+for f in "${repository}"/*; do
+    f=$(basename "$f")
+    case "$f" in
         control.tar.bz2)
-            echo "control tarbz2 required ${f} /" >> ${repository}/manifest ;;
+            echo "control tarbz2 required ${f} /" >> "${repository}/manifest" ;;
         dom0-rootfs.i686.xc.ext3.gz)
-            echo "dom0 ext3gz required ${f} /" >> ${repository}/manifest ;;
+            echo "dom0 ext3gz required ${f} /" >> "${repository}/manifest" ;;
         *.vhd.gz)
-            vm=$(echo $f|cut -f1 -d-)
-            echo "${vm} vhdgz required ${f} /storage/${vm}" >> ${repository}/manifest ;;
+            vm=$(echo "$f"|cut -f1 -d-)
+            echo "${vm} vhdgz required ${f} /storage/${vm}" >> "${repository}/manifest" ;;
         *.iso)
-            echo "file iso optional ${f} /storage/isos/${f}" >> ${repository}/manifest ;;
+            echo "file iso optional ${f} /storage/isos/${f}" >> "${repository}/manifest" ;;
     esac
 done
 
@@ -74,17 +75,16 @@ while read name format opt_req src dest; do
         continue
     fi
 
-    filesize=$( du -b ${repository}/${src} | awk '{print $1}' )
-    sha256sum=$( sha256sum ${repository}/${src} | awk '{print $1}' )
+    filesize=$(du -b "${repository}/${src}" | awk '{print $1}')
+    sha256sum=$(sha256sum "${repository}/${src}" | awk '{print $1}')
 
     echo "$name" "$filesize" "$sha256sum" "$format" \
          "$opt_req" "$src" "$dest" >> "${repository}/XC-PACKAGES"
-done < ${repository}/manifest
+done < "${repository}/manifest"
 
-rm ${repository}/manifest
+rm "${repository}/manifest"
 
-PACKAGES_SHA256SUM=$(sha256sum "${repository}/XC-PACKAGES" |
-                                awk '{print $1}')
+PACKAGES_SHA256SUM=$(sha256sum "${repository}/XC-PACKAGES" | awk '{print $1}')
 
 set +o pipefail #fragile part
 

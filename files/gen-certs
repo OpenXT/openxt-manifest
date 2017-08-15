@@ -4,7 +4,7 @@ check_subject() {
 	local cert=$1
 	local subj=$2
 
-	local old_subj=$(openssl x509 -noout -subject -in ${cert} |
+	local old_subj=$(openssl x509 -noout -subject -in "${cert}" |
 		sed -n '/^subject/s/^subject=\s\+//p')
 	
 	[ "${subj}" == "${old_subj}" ] || return 1
@@ -14,10 +14,10 @@ gen_cert() {
 	local cert=$1
 	local subj=$2
 
-	local d=$(dirname ${cert})
-	local b=$(basename ${cert})
+	local d=$(dirname "${cert}")
+	local b=$(basename "${cert}")
 
-	[ -d ${d} ] || mkdir -p ${d}
+	[ -d "${d}" ] || mkdir -p "${d}"
 
 	openssl genrsa -out "${d}/${b}key.pem" 2048
 	openssl req -new -x509 -key "${d}/${b}key.pem" -out "${cert}cert.pem" -days 1095 \
@@ -27,7 +27,7 @@ gen_cert() {
 SUBJECT="/C=US/ST=Massachusetts/L=Boston/O=OpenXT/OU=OpenXT/CN=openxt.org"
 
 while getopts ":s:" opt; do
-	case $opt in
+	case "$opt" in
 		s) SUBJECT="${OPTARG}" ;;
 	esac
 done
@@ -37,14 +37,14 @@ shift "$((OPTIND-1))"
 CERT_PATH=${1:-"${HOME}/certs"}
 
 for c in dev-ca prod-ca; do
-	if [ -e ${CERT_PATH}/${c}cert.pem ]; then
-		if check_subject ${CERT_PATH}/${c}cert.pem ${SUBJECT}; then
+	if [ -e "${CERT_PATH}/${c}cert.pem" ]; then
+		if check_subject "${CERT_PATH}/${c}cert.pem" "${SUBJECT}"; then
 			continue;
 		else
-			rm ${CERT_PATH}/${c}{cert,key}.pem
-			gen_cert ${CERT_PATH}/${c} ${SUBJECT}
+			rm "${CERT_PATH}/${c}"{cert,key}.pem
+			gen_cert "${CERT_PATH}/${c}" "${SUBJECT}"
 		fi
 	else
-		gen_cert ${CERT_PATH}/${c} ${SUBJECT}
+		gen_cert "${CERT_PATH}/${c}" "${SUBJECT}"
 	fi
 done

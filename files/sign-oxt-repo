@@ -49,7 +49,7 @@ for f in "${repository}"/*; do
     case "$f" in
         control.tar.bz2)
             echo "control tarbz2 required ${f} /" >> "${repository}/manifest" ;;
-        dom0-rootfs.i686.xc.ext3.gz)
+        dom0-rootfs.i686.ext3.gz)
             echo "dom0 ext3gz required ${f} /" >> "${repository}/manifest" ;;
         *.vhd.gz)
             vm=$(echo "$f"|cut -f1 -d-)

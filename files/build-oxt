@@ -12,12 +12,12 @@ while read line; do
     break
   }
 done <<EOF  
-xenclient-dom0 xenclient-initramfs-image
 xenclient-stubdomain xenclient-stubdomain-initramfs-image
+xenclient-dom0 xenclient-initramfs-image
 xenclient-dom0 xenclient-dom0-image
 xenclient-uivm xenclient-uivm-image
 xenclient-ndvm xenclient-ndvm-image
-xenclient-dom0 xenclient-installer-image
-xenclient-dom0 xenclient-installer-part2-image
+openxt-installer xenclient-installer-image
+openxt-installer xenclient-installer-part2-image
 EOF
 

@@ -27,7 +27,6 @@ mkdir -p "${OPENXT_DIR}/Dockerfiles"
 for f in "${DOCKERFILES}"/*; do
     dest=${OPENXT_DIR}/Dockerfiles/$(basename "$f")
     cp -n "$f" "${dest}"
-    sed -i -e "s/\[UID\]/${UID}/g" "${dest}"
 done
 
 # Setup default build configuration
@@ -57,7 +56,8 @@ create_container() {
         return 1
     fi
 
-    docker build -t "${name}" -f "${path}/${file}" "${OPENXT_DIR}/Dockerfiles"
+    docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
+	    -t ${name} -f ${path}/${file} ${OPENXT_DIR}/Dockerfiles
 }
 
 create_oebuild() {
@@ -115,7 +115,7 @@ enter_container() {
     fi
     shift
 
-    docker run --rm -it \
+    docker run --rm -it --security-opt seccomp=unconfined \
         -v "${OPENXT_DIR}:/home/${user}/openxt" \
         -v "${HOME}/.ssh:/home/${user}/.ssh" \
         -v "${HOME}/.gitconfig:/home/${user}/.gitconfig" \

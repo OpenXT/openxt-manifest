@@ -98,15 +98,28 @@ EOF
     echo "  \"" >> "${OPENXT_DIR}/build-${build_id}/conf/bblayers.conf"
 }
 
+
 enter_container() {
     local user="build"
 
-    while getopts ":u" opt; do
-        case $opt in
-            u) user=$OPTARG ;;
-        esac
-    done
-    shift $((OPTIND-1))
+	PARGS=""
+	while (( "$#" )); do
+	    case "$1" in
+		    -u|--user)
+		        user=$2
+                shift 2 ;;
+		    --)
+		        shift
+		        break ;;
+		    -*|--*)
+		        echo "Unsupported argument $1" >&2
+		        return 1 ;;
+		    *)
+		        PARGS="$PARGS $1"
+		        shift ;;
+	    esac
+	done
+	eval set -- "$PARGS"
 
     local name=${1}
     if [ -z "${name}" ]; then
@@ -124,22 +137,35 @@ enter_container() {
         "${name}" "$@"
 }
 
+
 oxt_build() {
     local user="build"
 
-    while getopts ":u" opt; do
-        case $opt in
-            u) user=$OPTARG ;;
-        esac
-    done
-    shift $((OPTIND-1))
-
+	PARGS=""
+	while (( "$#" )); do
+	    case "$1" in
+		    -u|--user)
+		        user=$2
+                shift 2 ;;
+		    --)
+		        shift
+		        break ;;
+		    -*|--*)
+		        echo "Unsupported argument $1" >&2
+		        return 1 ;;
+		    *)
+		        PARGS="$PARGS $1"
+		        shift ;;
+	    esac
+	done
+	eval set -- "$PARGS"
+	
     local name=${1}; shift
     if [ -z "${name}" ]; then
         echo "please provide a container to enter"
         return 1
     fi
-
+    
     docker run --rm -it \
 	--security-opt seccomp=unconfined \
         -v "${OPENXT_DIR}:/home/${user}/openxt" \

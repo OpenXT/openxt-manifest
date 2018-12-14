@@ -24,6 +24,7 @@
 	  <copyfile dest="openxt-env" src="../../.repo/manifests/files/openxt-env"/>
   </project>
 
+  <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>

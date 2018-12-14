@@ -174,6 +174,16 @@ directory.
 This script is used in conjunction with **gen-release**. Pass the same
 parameters and the release package will be signed with the build certs.
 
+
+##### **gen-iso** -n *{build_id}* -r *{release_tag}*
+
+This script is a wrapper around gen-release, sign-oxt-repo, and a couple
+of other commands to prepare the final .iso image file. It takes two options
+   -n : the build id
+   -r : the  release tag
+
+The genearted iso file is placed under build-<BUILD_ID>/release/<RELEASE_TAG>
+
 ### Build Environment
 
 The build environmnet is a pseudo-ephemeral environment that is Docker

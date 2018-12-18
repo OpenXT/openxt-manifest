@@ -12,8 +12,8 @@
   <project remote="github" name="openembedded/meta-openembedded" revision="pyro" path="repos/meta-openembedded"/>
   <project remote="github" name="openembedded/bitbake" revision="1.34" path="repos/bitbake"/>
 
-  <project remote="yocto" name="meta-java" revision="d855c624f32c5e599bf27e06cb8f5b25b3aae12d" path="repos/meta-java"/>
-  <project remote="yocto" name="meta-selinux" revision="pyro" path="repos/meta-selinux"/>
+  <project remote="yocto" name="meta-java" revision="pyro" path="repos/meta-java"/>
+  <project remote="yocto" name="meta-selinux" revision="d855c624f32c5e599bf27e06cb8f5b25b3aae12d" path="repos/meta-selinux"/>
   <project remote="yocto" name="meta-intel" revision="pyro" path="repos/meta-intel"/>
   <project remote="yocto" name="meta-virtualization" revision="pyro" path="repos/meta-virtualization"/>
 

@@ -70,7 +70,7 @@ for f in $(find "${DEPLOY_DIR}/images/openxt-installer"); do
 done
 
 # copy any domain images
-for f in $(find "${DEPLOY_DIR}/images" -type l -name '*.ext3.vhd.gz' -o -name '*.ext3.gz'); do
+for f in $(find "${DEPLOY_DIR}/images" -type l -name '*.vhd.gz' -o -name '*.ext3.gz'); do
     domain=$(basename "$f" | cut -f2 -d-) 
 
     case $f in

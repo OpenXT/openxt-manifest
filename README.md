@@ -12,7 +12,7 @@ yourself permision to manage docker, e.g. add to docker group on Ubuntu/Debian.
 
 Using repo you will now stage your development workspace.See __Directory
 layout__ for details.
-```
+```bash
    mkdir openxt-workspace
    cd openxt-workspace
    repo init -u https://github.com/apertussolutions/openxt-manifest.git
@@ -21,19 +21,40 @@ layout__ for details.
 
 Source the host-env script to configure your shell environment and finalize the
 staging of the development workspace.
-```
+```bash
   source host-env
 ```
 
 Setup an OpenXT build container.
-```
+```bash
+  # create_container <container-name> <base-container-image>
   create_container oxt-builder openxt-oe32
 ```
 
+Generate certs for signing the build
+```bash
+  # gen-certs <output-directory>
+  ./bin/gen-certs certs
+```
+
 Now attempt a build.
+```bash
+  # oxt_build <container-name> [optional-build-id]
+  oxt_build oxt-builder
 ```
-  oxt_build [optional build id]
+
+To restart or rebuild a previous build (e.g. build-123456), supply the build id.
+```bash
+  # oxt_build <container-name> [optional-build-id]
+  oxt_build oxt-builder 123456
 ```
+
+When the build is complete, generate a release, sign it, and crete an ISO
+```bash
+  # gen-iso -n <build-id> -r <release-tag>
+  ./bin/gen-iso -n 123456 -r 1-stable
+```
+The ISO will end up at `openxt-workspace/build-{build-id}/release/{release-tag}/installer.iso`
 
 ## Development Environment
 
@@ -137,7 +158,7 @@ The successful execution of this function will result in an interactive shell
 environment within the container as the build user in the build user's home
 directory.
 
-##### **oxt_build** *[-u USER]* *{name}*
+##### **oxt_build** *[-u USER]* *{name}* *[build-id]*
 
 This shell function is simliar to **enter_container** except instead of
 launching an interactive session in the container, it launches the build script

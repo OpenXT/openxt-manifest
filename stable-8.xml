@@ -37,7 +37,6 @@
   <project remote="github" name="openxt/libxenbackend" path="openxt/libxenbackend"/>
   <project remote="github" name="openxt/manager" path="openxt/manager"/>
   <project remote="github" name="openxt/network" path="openxt/network"/>
-  <project remote="github" name="openxt/ocaml" path="openxt/ocaml"/>
   <project remote="github" name="openxt/pv-linux-drivers" path="openxt/pv-linux-drivers"/>
   <project remote="github" name="openxt/resized" path="openxt/resized"/>
   <project remote="github" name="openxt/sync-client" path="openxt/sync-client"/>

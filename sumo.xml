@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <default revision="stable-8" sync-j="1"/>
+  <default revision="master" sync-j="1"/>
 
   <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
   <remote fetch="git://git.openembedded.org" name="oe"/>
   <remote fetch="https://github.com" name="github"/>
+  <remote fetch="https://github.com/eric-ch" name="ericch"/>
 
-  <project remote="github" name="openembedded/openembedded-core" revision="pyro" path="layers/openembedded-core"/>
-  <project remote="github" name="openembedded/meta-openembedded" revision="pyro" path="layers/meta-openembedded"/>
-  <project remote="github" name="openembedded/bitbake" revision="1.34" path="layers/bitbake"/>
+  <project remote="github" name="openembedded/bitbake" revision="1.38" path="bitbake"/>
+  <project remote="github" name="openembedded/openembedded-core" revision="sumo" path="layers/openembedded-core"/>
+  <project remote="github" name="openembedded/meta-openembedded" revision="sumo" path="layers/meta-openembedded"/>
 
-  <project remote="yocto" name="meta-java" revision="pyro" path="layers/meta-java"/>
-  <project remote="yocto" name="meta-selinux" revision="d855c624f32c5e599bf27e06cb8f5b25b3aae12d" path="layers/meta-selinux"/>
-  <project remote="yocto" name="meta-intel" revision="pyro" path="layers/meta-intel"/>
-  <project remote="yocto" name="meta-virtualization" revision="pyro" path="layers/meta-virtualization"/>
+  <project remote="yocto" name="meta-intel" revision="sumo" path="layers/meta-intel"/>
+  <project remote="yocto" name="meta-java" revision="sumo" path="layers/meta-java"/>
+  <project remote="yocto" name="meta-selinux" revision="master" path="layers/meta-selinux"/>
+  <project remote="yocto" name="meta-virtualization" revision="sumo" path="layers/meta-virtualization"/>
 
-  <project remote="github" name="openxt/meta-openxt-haskell-platform" force-path="yes" path="layers/meta-openxt-haskell-platform"/>
-  <project remote="github" name="openxt/meta-openxt-ocaml-platform" force-path="yes" path="layers/meta-openxt-ocaml-platform"/>
-  <project remote="github" name="openxt/xenclient-oe" force-path="yes" path="layers/xenclient-oe">
+  <project remote="ericch" name="meta-openxt-ocaml-platform" revision="sumo" path="layers/meta-openxt-ocaml-platform"/>
+  <project remote="ericch" name="meta-openxt-haskell-platform" revision="sumo" path="layers/meta-openxt-haskell-platform"/>
+  <project remote="ericch" name="xenclient-oe" revision="sumo" path="layers/xenclient-oe">
       <linkfile dest="bin" src="../../.repo/manifests/bin"/>
       <linkfile dest="templates" src="../../.repo/manifests/templates"/>
   </project>
 
-  <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>
@@ -36,7 +36,7 @@
   <project remote="github" name="openxt/libxenbackend" path="openxt/libxenbackend"/>
   <project remote="github" name="openxt/manager" path="openxt/manager"/>
   <project remote="github" name="openxt/network" path="openxt/network"/>
-  <project remote="github" name="openxt/ocaml" revision="master" path="openxt/ocaml"/>
+  <project remote="github" name="openxt/ocaml" path="openxt/ocaml"/>
   <project remote="github" name="openxt/pv-linux-drivers" path="openxt/pv-linux-drivers"/>
   <project remote="github" name="openxt/resized" path="openxt/resized"/>
   <project remote="github" name="openxt/sync-client" path="openxt/sync-client"/>
@@ -51,8 +51,10 @@
   <project remote="github" name="openxt/xclibs" path="openxt/xclibs"/>
   <project remote="github" name="openxt/xctools" path="openxt/xctools"/>
   <project remote="github" name="openxt/xenfb2" path="openxt/xenfb2"/>
+  <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/xsm-policy" path="openxt/xsm-policy">
-      <linkfile dest="mirror" src="../../.repo/projects/openxt"/>
+      <linkfile dest="mirror" src="../../.repo/projects/openxt/"/>
   </project>
 
 </manifest>
+

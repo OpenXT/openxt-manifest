@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
-  <default revision="stable-8" sync-j="1"/>
+  <default revision="stable-7" sync-j="1"/>
 
   <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
   <remote fetch="git://git.openembedded.org" name="oe"/>
   <remote fetch="https://github.com" name="github"/>
 
-  <project remote="github" name="openembedded/openembedded-core" revision="pyro" path="layers/openembedded-core"/>
-  <project remote="github" name="openembedded/meta-openembedded" revision="pyro" path="layers/meta-openembedded"/>
-  <project remote="github" name="openembedded/bitbake" revision="1.34" path="layers/bitbake"/>
+  <project remote="github" name="openembedded/bitbake" revision="68d061d2517f1a79dc6b14a373ed2dcb78a901ce" path="layers/bitbake"/>
+  <project remote="github" name="openembedded/openembedded-core" revision="6af6e285e8bed16b02dee27c8466e9f4f9f21e30" path="layers/openembedded-core"/>
+  <project remote="github" name="openembedded/meta-openembedded" revision="2ea8d7f54a061e902657c4f8ea1f7f7c25c6c4e1" path="layers/meta-openembedded"/>
 
-  <project remote="yocto" name="meta-java" revision="pyro" path="layers/meta-java"/>
-  <project remote="yocto" name="meta-selinux" revision="d855c624f32c5e599bf27e06cb8f5b25b3aae12d" path="layers/meta-selinux"/>
-  <project remote="yocto" name="meta-intel" revision="pyro" path="layers/meta-intel"/>
-  <project remote="yocto" name="meta-virtualization" revision="pyro" path="layers/meta-virtualization"/>
+  <project remote="yocto" name="meta-intel" revision="4e8b0ef1e521dc45dcc310b6b7528bfe1eed1274" path="layers/meta-intel"/>
+  <project remote="yocto" name="meta-java" revision="a73939323984fca1e919d3408d3301ccdbceac9c" path="layers/meta-java"/>
+  <project remote="yocto" name="meta-selinux" revision="4c75d9cbcf1d75043c7c5ab315aa383d9b227510" path="layers/meta-selinux"/>
+  <project remote="yocto" name="meta-virtualization" revision="042425c1d98bdd7e44a62789bd03b375045266f5" path="layers/meta-virtualization"/>
 
-  <project remote="github" name="openxt/meta-openxt-haskell-platform" force-path="yes" path="layers/meta-openxt-haskell-platform"/>
-  <project remote="github" name="openxt/meta-openxt-ocaml-platform" force-path="yes" path="layers/meta-openxt-ocaml-platform"/>
-  <project remote="github" name="openxt/xenclient-oe" force-path="yes" path="layers/xenclient-oe">
+  <project remote="github" name="openxt/meta-openxt-ocaml-platform" path="layers/meta-openxt-ocaml-platform"/>
+  <project remote="github" name="openxt/meta-openxt-haskell-platform" path="layers/meta-openxt-haskell-platform"/>
+  <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
       <linkfile dest="bin" src="../../.repo/manifests/bin"/>
       <linkfile dest="templates" src="../../.repo/manifests/templates"/>
   </project>
 
-  <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>
@@ -52,7 +51,8 @@
   <project remote="github" name="openxt/xctools" path="openxt/xctools"/>
   <project remote="github" name="openxt/xenfb2" path="openxt/xenfb2"/>
   <project remote="github" name="openxt/xsm-policy" path="openxt/xsm-policy">
-      <linkfile dest="mirror" src="../../.repo/projects/openxt"/>
+      <linkfile dest="mirror" src="../../.repo/projects/openxt/"/>
   </project>
 
 </manifest>
+

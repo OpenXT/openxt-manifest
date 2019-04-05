@@ -1,4 +1,4 @@
-FROM multiarch/debian-debootstrap:i386-jessie
+FROM multiarch/debian-debootstrap:amd64-jessie
 MAINTAINER Daniel P. Smith <dpsmith@apertussolutions.com>
 
 ARG UNAME=build
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -yq \
         help2man make gcc build-essential g++ desktop-file-utils chrpath cpio \
         screen bash-completion python3 iputils-ping guilt iasl quilt bin86 \
         bcc libsdl1.2-dev liburi-perl genisoimage policycoreutils unzip vim \
-        sudo rpm curl libncurses5-dev libc6-dev-amd64 libelf-dev xorriso \
+        sudo rpm curl libncurses5-dev libelf-dev xorriso \
         mtools dosfstools file byobu man ca-certificates locales && \
         rm -rf /var/lib/apt-lists/* && \
         echo "dash dash/sh boolean false" | debconf-set-selections && \
@@ -21,18 +21,17 @@ RUN apt-get update && apt-get install -yq \
 
 # Download the GHC prerequisites from squeeze
 RUN mkdir -p /tmp/ghc-prereq && cd /tmp/ghc-prereq && \
-        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmpxx4ldbl_4.3.2+dfsg-1_i386.deb && \
-        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3c2_4.3.2+dfsg-1_i386.deb && \
-        wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3-dev_4.3.2+dfsg-1_i386.deb && \
-        dpkg -i libgmpxx4ldbl_4.3.2+dfsg-1_i386.deb libgmp3c2_4.3.2+dfsg-1_i386.deb \
-          libgmp3-dev_4.3.2+dfsg-1_i386.deb && \
-        rm -rf /tmp/ghc-prereq
+	wget http://archive.debian.org/debian/pool/main/g/gmp/libgmpxx4ldbl_4.3.2+dfsg-1_amd64.deb && \
+	wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3c2_4.3.2+dfsg-1_amd64.deb && \
+	wget http://archive.debian.org/debian/pool/main/g/gmp/libgmp3-dev_4.3.2+dfsg-1_amd64.deb && \
+        dpkg -i libgmpxx4ldbl_4.3.2+dfsg-1_amd64.deb libgmp3c2_4.3.2+dfsg-1_amd64.deb \
+		libgmp3-dev_4.3.2+dfsg-1_amd64.deb && \
+        cd /tmp && rm -rf /tmp/ghc-prereq
 
 # Install the required version of GHC
-RUN cd /tmp && \
-        wget http://www.haskell.org/ghc/dist/6.12.3/ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
-        tar jxf ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
-        rm ghc-6.12.3-i386-unknown-linux-n.tar.bz2 && \
+RUN wget https://downloads.haskell.org/~ghc/6.12.3/ghc-6.12.3-x86_64-unknown-linux-n.tar.bz2 && \
+        tar jxf ghc-6.12.3-x86_64-unknown-linux-n.tar.bz2 && \
+        rm ghc-6.12.3-x86_64-unknown-linux-n.tar.bz2 && \
         cd ghc-6.12.3 && \
         ./configure --prefix=/usr && \
         make install && \
@@ -42,6 +41,9 @@ RUN cd /tmp && \
 RUN curl http://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo && \
         chmod a+x /usr/local/bin/repo
 
+# Symlink for troublesome packages
+RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib/
+
 RUN useradd -Ums /bin/bash -p $UNAME -u $UID $UNAME && \
         usermod -aG sudo $UNAME
 
@@ -50,3 +52,4 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 ENV LANG en_US.utf8
 USER $UNAME
 WORKDIR /home/$UNAME
+ENTRYPOINT ["/bin/bash"]

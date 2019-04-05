@@ -1,3 +1,14 @@
+---
+
+# __!!OUTDATED!!__
+
+OpenXT repo tool manifest is under merger with eric-ch/openxt-manifest.git. A
+working implementation has been merged so that collaboration on the few last
+details can occur. Upon completion the README will be updated with directions
+that reflect the new environment.
+
+---
+
 # openxt-manifest
 
 OpenXT repo tool manifest

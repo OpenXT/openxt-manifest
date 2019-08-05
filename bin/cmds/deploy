@@ -75,66 +75,6 @@ deploy_iso() {
         "${STAGING_DIR}/repository"
 }
 
-deploy_pxe_usage() {
-    local rc="$1"
-    echo "Usage: ./openxt.sh deploy pxe [-r [<repo-user>@]<repo-server>:<repo-path>] [<tftp-user>@]<tftp-server>:<tftp-path> <repository-uri>"
-    echo "  -r  rsync repository files to http(s) server passed as argument, [<repo-user>@]<repo-server>:<repo-path>."
-    exit "${rc}"
-}
-
-__deploy_pxe() {
-    local pxe_staging="${STAGING_DIR}/pxe"
-    local repo_dst=""
-
-    # Prepare repository layout and write XC-{PACKAGE,REPOSITORY,SIGNATURE}
-    # meta files.
-    call_cmd "stage" "repository"
-
-    while getopts "hr:" opt; do
-        case "${opt}" in
-            h) deploy_pxe_usage 0 ;;
-            :) echo "Option \`${OPTARG}' is missing an argument." >&2
-               deploy_pxe_usage 1 ;;
-            \?) echo "Unknown option \`${OPTARG}'." >&2
-                deploy_pxe_usage 1 ;;
-            r) repo_dst="${OPTARG}" ;;
-        esac
-    done
-    shift $((${OPTIND} - 1))
-
-    if [ "$#" -ne 2 ]; then
-        deploy_pxe_usage 1
-    fi
-
-    local tftp_dst="$1"
-    local repo_url="$2"
-
-    # TODO: Not great, will change staging data...
-    #       Not too bad since we "stage pxe" again every time.
-    local answer_files=()
-    for ans in "${pxe_staging}"/*.ans; do
-        sed -i "s|\(<source.\+>\).\+</source>|\1${repo_url}</source>|" "${ans}"
-        answer_files+=("${ans}")
-    done
-    rsync -rlptDvzr "${pxe_staging}/" "${tftp_dst}"
-    if [ -n "${repo_dst}" ]; then
-        echo rsync -rlptDvzr "${STAGING_DIR}/repository/" ${answer_files[@]} "${repo_dst}"
-        rsync -avzr "${STAGING_DIR}/repository/" ${answer_files[@]} "${repo_dst}"
-    fi
-}
-deploy_pxe_legacy() {
-    # Prepare PXE staging.
-    call_cmd "stage" "pxe-old"
-
-    __deploy_pxe $@
-}
-deploy_pxe() {
-    # Prepare PXE staging.
-    call_cmd "stage" "pxe"
-
-    __deploy_pxe $@
-}
-
 # Usage: deploy_describe
 # Display description for this command wrapper.
 deploy_describe() {
@@ -148,11 +88,13 @@ deploy_dependecy() {
 # Usage: deploy_usage
 # Display usage for this command wrapper.
 deploy_usage() {
-    echo "Deployment command list:"
-    echo "  iso-old: Create a BIOS/MBR bootable ISO hybrid image of an OpenXT installer (can be dd'ed on a thumbdrive). This installeris available until OpenXT 7."
-    echo "  iso: Create an EFI bootable ISO hybrid image of an OpenXT installer (can be dd'ed on a thumbdrive). This installer is available starting with OpenXT 8."
-    echo "  pxe-old: Copy a PXE compatible OpenXT installer to the given [<tftp-user>@]<tftp-server>:<tftp-path> tftp server, and setup the installer to fetch repository from <repo-uri>."
-    echo "  pxe: Copy a PXE compatible OpenXT installer to the given [<tftp-user>@]<tftp-server>:<tftp-path> tftp server, and setup the installer to fetch repository from <repo-uri>."
+    cat - <<EOF
+Usage: deploy <command>
+    Run a deploy command to populate DEPLOY_DIR with the given deployable based on STAGING_DIR content.
+Deploy Commands:
+    iso-old: Create a BIOS/MBR bootable ISO hybrid image of an OpenXT installer (can be dd'ed on a thumbdrive). This installeris available until OpenXT 7.
+    iso: Create an EFI bootable ISO hybrid image of an OpenXT installer (can be dd'ed on a thumbdrive). This installer is available starting with OpenXT 8.
+EOF
     exit $1
 }
 
@@ -169,8 +111,6 @@ deploy_main() {
                    deploy_iso_legacy $@ ;;
         "iso") check_cmd_version "${target}"
                deploy_iso $@ ;;
-        "pxe-old") deploy_pxe_legacy $@ ;;
-        "pxe") deploy_pxe $@ ;;
         "help") deploy_usage 0 ;;
         *) echo "Unknown staging command \`${target}'." >&2
            deploy_usage 1

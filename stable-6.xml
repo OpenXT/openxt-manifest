@@ -14,11 +14,9 @@
   <project remote="yocto" name="meta-java" revision="a73939323984fca1e919d3408d3301ccdbceac9c" path="layers/meta-java"/>
   <project remote="yocto" name="meta-selinux" revision="4c75d9cbcf1d75043c7c5ab315aa383d9b227510" path="layers/meta-selinux"/>
 
-  <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe">
-      <linkfile dest="bin" src="../../.repo/manifests/bin"/>
-      <linkfile dest="templates" src="../../.repo/manifests/templates"/>
-  </project>
+  <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
 
+  <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>

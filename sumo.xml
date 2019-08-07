@@ -19,11 +19,9 @@
 
   <project remote="ericch" name="meta-openxt-ocaml-platform" revision="sumo" path="layers/meta-openxt-ocaml-platform"/>
   <project remote="ericch" name="meta-openxt-haskell-platform" revision="sumo" path="layers/meta-openxt-haskell-platform"/>
-  <project remote="ericch" name="xenclient-oe" revision="sumo" path="layers/xenclient-oe">
-      <linkfile dest="bin" src="../../.repo/manifests/bin"/>
-      <linkfile dest="templates" src="../../.repo/manifests/templates"/>
-  </project>
+  <project remote="ericch" name="xenclient-oe" revision="sumo" path="layers/xenclient-oe"/>
 
+  <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>

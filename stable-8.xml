@@ -20,7 +20,7 @@
   <project remote="github" name="openxt/meta-openxt-ocaml-platform" force-path="yes" path="layers/meta-openxt-ocaml-platform"/>
   <project remote="github" name="openxt/xenclient-oe" force-path="yes" path="layers/xenclient-oe"/>
 
-  <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
+  <project remote="github" name="apertussolutions/bordel" revision="master" path="openxt/bordel"/>
   <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>

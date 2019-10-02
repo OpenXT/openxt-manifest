@@ -74,6 +74,11 @@ launch a build on that branch, and then optionally switch to different
 working branch to make changes without affecting any currently executing
 builds.
 
+
+```
+repo start ${OPENXT_BRANCH} openxt/*
+```
+
 ## Building
 
 ### Build Machine Setup
@@ -217,7 +222,7 @@ file will need to be adjusted with the following additional sections.
 * **OPENXT_MIRROR**: mirror URL for build related files hosted by OpenXT
 * **OPENXT_GIT_MIRROR**: the path element of the URL for the Git repository server hosting OpenXT code repositories
 * **OPENXT_GIT_PROTOCOL**: the URI element of the URL for the Git repository server hosting OpenXT code repositories
-* **OPENXT_BRANCH**: the branch to checkout from all OpenXT code repositories
+* **OPENXT_BRANCH**: the branch to checkout from all OpenXT code repositories. This should be the branch where you might have custom development code that you want to test.
 * **REPO_PROD_CACERT**: see **Build Certificates** section above
 * **REPO_DEV_CACERT**: see **Build Certificates** section above
 
@@ -269,11 +274,11 @@ that exists.
 ```
 # Common URL translations.
 MIRRORS += " \
-    http://code.coreboot.org/p/seabios/downloads/.*
-https://www.seabios.org/downloads/ \n \
-    http://www.seabios.org/downloads/.*
-https://www.seabios.org/downloads/ \n \
-    git://anonscm.debian.org/collab-maint/ltrace.git 
+    http://code.coreboot.org/p/seabios/downloads/.* \
+https://www.seabios.org/downloads/ \
+    http://www.seabios.org/downloads/.* \
+https://www.seabios.org/downloads/ \
+    git://anonscm.debian.org/collab-maint/ltrace.git  \
 git://github.com/sparkleholic/ltrace.git \n \
 "
 ```

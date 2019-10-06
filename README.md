@@ -20,6 +20,12 @@ layout__ for details.
 
 ## Development Environment
 
+NOTE: The default non-interactive shell for OpenXT build is supposed to be `dash`
+      However, some scripts make use of `bash` extentions. While this should be fixed,
+      a work around for now is to change the default shell via:
+```bash
+      dpkg-reconfigure dash
+```
 ### Directory Structure
 
 After running repo sync, the development environment will have a directory

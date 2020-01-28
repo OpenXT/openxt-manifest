@@ -109,13 +109,13 @@ bcc
 bin86
 curl
 cvs
-docbook-utils
 dosfstools
 genisoimage
 guilt
 iasl
 libelf-dev
 libncurses5-dev
+libncursesw5
 libsdl1.2-dev
 liburi-perl
 locales

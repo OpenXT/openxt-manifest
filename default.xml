@@ -14,7 +14,7 @@
   <project remote="yocto" name="meta-intel" revision="zeus" path="layers/meta-intel"/>
   <project remote="yocto" name="meta-java" revision="zeus" path="layers/meta-java"/>
   <project remote="yocto" name="meta-selinux" revision="zeus" path="layers/meta-selinux"/>
-  <project remote="yocto" name="meta-virtualization" revision="zeus" path="layers/meta-virtualization"/>
+  <project remote="yocto" name="meta-virtualization" revision="dunfell" path="layers/meta-virtualization"/>
 
   <project remote="github" name="openxt/meta-openxt-ocaml-platform" path="layers/meta-openxt-ocaml-platform"/>
   <project remote="github" name="openxt/meta-openxt-haskell-platform" path="layers/meta-openxt-haskell-platform"/>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default revision="zeus" sync-j="1"/>
+
+  <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="git://git.openembedded.org" name="oe"/>
+  <remote fetch="https://github.com" name="github"/>
+
+  <project remote="github" name="openembedded/bitbake" revision="1.44" path="layers/bitbake"/>
+  <project remote="github" name="openembedded/openembedded-core" path="layers/openembedded-core"/>
+  <project remote="github" name="openembedded/meta-openembedded" path="layers/meta-openembedded"/>
+
+  <project remote="yocto" name="meta-intel" path="layers/meta-intel"/>
+  <project remote="yocto" name="meta-java" path="layers/meta-java"/>
+  <project remote="yocto" name="meta-selinux" path="layers/meta-selinux"/>
+  <project remote="yocto" name="meta-virtualization" path="layers/meta-virtualization"/>
+
+  <project remote="github" name="openxt/meta-openxt-ocaml-platform" path="layers/meta-openxt-ocaml-platform"/>
+  <project remote="github" name="openxt/meta-openxt-haskell-platform" path="layers/meta-openxt-haskell-platform"/>
+  <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
+
+  <project remote="github" name="apertussolutions/bordel" revision="master" path="openxt/bordel"/>
+</manifest>
+

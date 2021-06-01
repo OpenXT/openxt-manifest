@@ -6,6 +6,7 @@
   <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
   <remote fetch="git://git.openembedded.org" name="oe"/>
   <remote fetch="https://github.com" name="github"/>
+  <remote fetch="https://gitlab.com" name="gitlab"/>
 
   <project remote="github" name="openembedded/bitbake" revision="1.46" path="layers/bitbake"/>
   <project remote="github" name="openembedded/openembedded-core" revision="dunfell" path="layers/openembedded-core"/>
@@ -15,19 +16,17 @@
   <project remote="yocto" name="meta-java" revision="dunfell" path="layers/meta-java"/>
   <project remote="yocto" name="meta-selinux" revision="dunfell" path="layers/meta-selinux"/>
   <project remote="yocto" name="meta-virtualization" revision="dunfell" path="layers/meta-virtualization"/>
+  <project remote="github" name="meta-qt5/meta-qt5" revision="dunfell" path="layers/meta-qt5"/>
 
   <project remote="github" name="openxt/meta-openxt-ocaml-platform" path="layers/meta-openxt-ocaml-platform"/>
   <project remote="github" name="openxt/meta-openxt-haskell-platform" path="layers/meta-openxt-haskell-platform"/>
   <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
+  <project remote="gitlab" name="vglass/meta-vglass" path="layers/meta-vglass"/>
 
   <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
-  <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
-  <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>
   <project remote="github" name="openxt/icbinn" path="openxt/icbinn"/>
   <project remote="github" name="openxt/idl" path="openxt/idl"/>
-  <project remote="github" name="openxt/input" path="openxt/input"/>
   <project remote="github" name="openxt/installer" path="openxt/installer"/>
-  <project remote="github" name="openxt/libedid" path="openxt/libedid"/>
   <project remote="github" name="openxt/libxcdbus" path="openxt/libxcdbus"/>
   <project remote="github" name="openxt/libxenbackend" path="openxt/libxenbackend"/>
   <project remote="github" name="openxt/linux-xen-argo" path="openxt/linux-xen-argo"/>
@@ -36,18 +35,23 @@
   <project remote="github" name="openxt/pv-linux-drivers" path="openxt/pv-linux-drivers"/>
   <project remote="github" name="openxt/sync-client" path="openxt/sync-client"/>
   <project remote="github" name="openxt/sync-wui" path="openxt/sync-wui"/>
-  <project remote="github" name="openxt/surfman" path="openxt/surfman"/>
   <project remote="github" name="openxt/toolstack" path="openxt/toolstack"/>
   <project remote="github" name="openxt/toolstack-data" path="openxt/toolstack-data"/>
   <project remote="github" name="openxt/uid" path="openxt/uid"/>
   <project remote="github" name="openxt/vusb-daemon" path="openxt/vusb-daemon"/>
-  <project remote="github" name="openxt/xblanker" path="openxt/xblanker"/>
   <project remote="github" name="openxt/xclibs" path="openxt/xclibs"/>
   <project remote="github" name="openxt/xctools" path="openxt/xctools"/>
-  <project remote="github" name="openxt/xenfb2" path="openxt/xenfb2"/>
   <project remote="github" name="openxt/blktap3" path="openxt/blktap3"/>
   <project remote="github" name="openxt/bats-suite" path="openxt/bats-suite"/>
   <project remote="github" name="openxt/xsm-policy" path="openxt/xsm-policy"/>
+
+  <project remote="gitlab" name="vglass/disman" path="openxt/disman"/>
+  <project remote="gitlab" name="vglass/glass" path="openxt/glass"/>
+  <project remote="gitlab" name="vglass/ivc" path="openxt/ivc"/>
+  <project remote="gitlab" name="vglass/openxtfb" path="openxt/openxtfb"/>
+  <project remote="gitlab" name="vglass/pv-display-helper" path="openxt/pv-display-helper"/>
+  <project remote="gitlab" name="vglass/xf86-video-openxtfb" path="openxt/xf86-video-openxtfb"/>
+  <project remote="gitlab" name="vglass/glassdrm" path="openxt/glassdrm"/>
 
 </manifest>
 

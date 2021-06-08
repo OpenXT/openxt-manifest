@@ -23,6 +23,6 @@
   <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
   <project remote="gitlab" name="vglass/meta-vglass" path="layers/meta-vglass"/>
 
-  <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
+  <project remote="github" name="openxt/bordel" path="openxt/bordel"/>
 </manifest>
 

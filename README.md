@@ -14,7 +14,7 @@ layout__ for details.
 ```bash
    mkdir openxt-workspace
    cd openxt-workspace
-   repo init -u https://github.com/apertussolutions/openxt-manifest.git
+   repo init -u https://github.com/OpenXT/openxt-manifest.git
    repo sync
 ```
 

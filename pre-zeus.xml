@@ -20,7 +20,7 @@
   <project remote="github" name="openxt/meta-openxt-haskell-platform" revision="refs/tags/pre-zeus" path="layers/meta-openxt-haskell-platform"/>
   <project remote="github" name="openxt/xenclient-oe" revision="refs/tags/pre-zeus" path="layers/xenclient-oe"/>
 
-  <project remote="github" name="apertussolutions/bordel" path="openxt/bordel"/>
+  <project remote="github" name="openxt/bordel" path="openxt/bordel"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>
   <project remote="github" name="openxt/icbinn" path="openxt/icbinn"/>

@@ -20,6 +20,6 @@
   <project remote="github" name="openxt/meta-openxt-haskell-platform" path="layers/meta-openxt-haskell-platform"/>
   <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
 
-  <project remote="github" name="apertussolutions/bordel" revision="master" path="openxt/bordel"/>
+  <project remote="github" name="openxt/bordel" revision="master" path="openxt/bordel"/>
 </manifest>
 

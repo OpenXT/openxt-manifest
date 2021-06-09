@@ -16,7 +16,7 @@
 
   <project remote="github" name="openxt/xenclient-oe" path="layers/xenclient-oe"/>
 
-  <project remote="github" name="apertussolutions/bordel" revision="master" path="openxt/bordel"/>
+  <project remote="github" name="openxt/bordel" revision="master" path="openxt/bordel"/>
   <project remote="github" name="openxt/dm-agent" path="openxt/dm-agent"/>
   <project remote="github" name="openxt/fbtap" path="openxt/fbtap"/>
   <project remote="github" name="openxt/gene3fs" path="openxt/gene3fs"/>

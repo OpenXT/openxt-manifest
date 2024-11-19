@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default revision="master" sync-j="1"/>
+
+  <remote fetch="http://git.yoctoproject.org/git" name="yocto"/>
+  <remote fetch="git://git.openembedded.org" name="oe"/>
+  <remote fetch="https://github.com" name="github"/>
+  <remote fetch="https://gitlab.com" name="gitlab"/>
+
+  <project remote="github" name="openembedded/bitbake" revision="1.46" path="layers/bitbake"/>
+  <project remote="github" name="openembedded/openembedded-core" revision="dunfell" path="layers/openembedded-core"/>
+  <project remote="github" name="openembedded/meta-openembedded" revision="dunfell" path="layers/meta-openembedded"/>
+
+  <project remote="yocto" name="meta-intel" revision="dunfell" path="layers/meta-intel"/>
+  <project remote="yocto" name="meta-java" revision="dunfell" path="layers/meta-java"/>
+  <project remote="yocto" name="meta-selinux" revision="dunfell" path="layers/meta-selinux"/>
+  <project remote="yocto" name="meta-virtualization" revision="dunfell" path="layers/meta-virtualization"/>
+  <project remote="github" name="meta-qt5/meta-qt5" revision="dunfell" path="layers/meta-qt5"/>
+
+  <project remote="github" name="openxt/meta-openxt-ocaml-platform" revision="refs/tags/ghc6" path="layers/meta-openxt-ocaml-platform"/>
+  <project remote="github" name="openxt/meta-openxt-haskell-platform" revision="refs/tags/ghc6" path="layers/meta-openxt-haskell-platform"/>
+  <project remote="gitlab" name="vglass/meta-vglass" path="layers/meta-vglass"/>
+  <project remote="github" name="openxt/xenclient-oe" revision="dunfell-ghc6" path="layers/xenclient-oe"/>
+
+  <project remote="github" name="openxt/bordel" path="openxt/bordel"/>

@@ -48,7 +48,7 @@ start building and developing OpenXT component and VM images.
 
 ```bash
 openxt/bordel/bordel -i quickstart config --no-repo-branch
-source build-quickstart/build-env
+source build-quickstart/build_env
 ```
 
-[^1]: [Development Environment Documentation](./Development_Environment.md)
+[^1]: [Development Environment Documentation](./docs/Development_Environment.md)
